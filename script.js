@@ -28,8 +28,8 @@ let phraseIndex = 0;
 let accepted = false;
 
 const dialFillMax = 240;
-const dialYesThreshold = 220; // 220 km/h out of 240 km/h max
-const dialStartAngle = -180;
+const dialYesThreshold = 10;
+const dialStartAngle = 210;
 let dialFill = 0;
 let lastDecay = performance.now();
 const decayRate = 36;
@@ -56,44 +56,44 @@ const playEngineSound = () => {
 
   oscillator1.type = "sawtooth";
   oscillator2.type = "triangle";
-  oscillator1.frequency.setValueAtTime(90, audioContext.currentTime);
-  oscillator2.frequency.setValueAtTime(45, audioContext.currentTime);
+  oscillator1.frequency.setValueAtTime(110, audioContext.currentTime);
+  oscillator2.frequency.setValueAtTime(55, audioContext.currentTime);
   oscillator1.frequency.exponentialRampToValueAtTime(
-    260,
-    audioContext.currentTime + 0.5
+    520,
+    audioContext.currentTime + 0.4
   );
   oscillator2.frequency.exponentialRampToValueAtTime(
-    130,
-    audioContext.currentTime + 0.5
+    260,
+    audioContext.currentTime + 0.4
   );
 
   filter.type = "lowpass";
-  filter.frequency.setValueAtTime(220, audioContext.currentTime);
+  filter.frequency.setValueAtTime(320, audioContext.currentTime);
   filter.frequency.exponentialRampToValueAtTime(
-    720,
-    audioContext.currentTime + 0.45
+    1400,
+    audioContext.currentTime + 0.35
   );
 
   noiseFilter.type = "bandpass";
-  noiseFilter.frequency.setValueAtTime(120, audioContext.currentTime);
+  noiseFilter.frequency.setValueAtTime(180, audioContext.currentTime);
   noiseFilter.frequency.exponentialRampToValueAtTime(
-    220,
-    audioContext.currentTime + 0.5
+    380,
+    audioContext.currentTime + 0.4
   );
 
   gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
   gain.gain.exponentialRampToValueAtTime(
-    0.22,
-    audioContext.currentTime + 0.08
+    1.25,
+    audioContext.currentTime + 0.06
   );
   gain.gain.exponentialRampToValueAtTime(
     0.0001,
     audioContext.currentTime + 1.1
   );
 
-  compressor.threshold.setValueAtTime(-12, audioContext.currentTime);
+  compressor.threshold.setValueAtTime(-20, audioContext.currentTime);
   compressor.knee.setValueAtTime(18, audioContext.currentTime);
-  compressor.ratio.setValueAtTime(6, audioContext.currentTime);
+  compressor.ratio.setValueAtTime(8, audioContext.currentTime);
   compressor.attack.setValueAtTime(0.005, audioContext.currentTime);
   compressor.release.setValueAtTime(0.12, audioContext.currentTime);
 

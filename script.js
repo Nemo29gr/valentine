@@ -28,9 +28,9 @@ const noPhrases = [
 ];
 let phraseIndex = 0;
 
-const dialFillMax = 270;
-const dialYesThreshold = 247.5; // 220 km/h out of 240 km/h max
-const dialStartAngle = -135;
+const dialFillMax = 240;
+const dialYesThreshold = 220; // 220 km/h out of 240 km/h max
+const dialStartAngle = -180;
 let dialFill = 0;
 let lastDecay = performance.now();
 const decayRate = 36;

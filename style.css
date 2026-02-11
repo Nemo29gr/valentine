@@ -225,7 +225,7 @@ main {
   --dial-radius: 94px;
   border-radius: 50%;
   background: conic-gradient(
-      from -180deg,
+      from 210deg,
       rgba(255, 179, 0, 0.1) 0deg,
       rgba(255, 179, 0, 0.18) 240deg,
       rgba(255, 179, 0, 0.05) 240deg
@@ -257,14 +257,14 @@ main {
   inset: 12px;
   border-radius: 50%;
   background: conic-gradient(
-      from -180deg,
+      from 210deg,
       rgba(255, 255, 255, 0.7) 0deg,
       rgba(255, 255, 255, 0.7) 1.4deg,
       transparent 1.4deg,
       transparent 9deg
     ),
     conic-gradient(
-      from -180deg,
+      from 210deg,
       rgba(255, 255, 255, 0.35) 0deg,
       rgba(255, 255, 255, 0.35) 0.8deg,
       transparent 0.8deg,
@@ -310,7 +310,7 @@ main {
   inset: 6px;
   border-radius: 50%;
   background: conic-gradient(
-    from -180deg,
+    from 210deg,
     rgba(255, 179, 0, 0.5) 0deg,
     rgba(255, 179, 0, 0.5) var(--dial-fill),
     rgba(255, 179, 0, 0.08) var(--dial-fill)
@@ -381,31 +381,31 @@ main {
 }
 
 .marker-0 {
-  --angle: -180deg;
+  --angle: 210deg;
 }
 
 .marker-1 {
-  --angle: -140deg;
+  --angle: 180deg;
 }
 
 .marker-2 {
-  --angle: -100deg;
+  --angle: 120deg;
 }
 
 .marker-3 {
-  --angle: -60deg;
+  --angle: 90deg;
 }
 
 .marker-4 {
-  --angle: -20deg;
+  --angle: 60deg;
 }
 
 .marker-5 {
-  --angle: 20deg;
+  --angle: 0deg;
 }
 
 .marker-6 {
-  --angle: 60deg;
+  --angle: -30deg;
 }
 
 .btn {
@@ -462,13 +462,25 @@ main {
   font-size: clamp(28px, 4vw, 44px);
   letter-spacing: 4px;
   text-transform: uppercase;
-  margin: 10px 0 0;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
   color: var(--white);
   opacity: 0;
-  transform: translateY(18px) scale(0.96);
-  text-shadow: 0 0 18px rgba(255, 179, 0, 0.5),
-    0 0 40px rgba(255, 179, 0, 0.35);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  visibility: hidden;
+  transform: scale(0.92);
+  pointer-events: none;
+  text-shadow: 0 0 18px rgba(255, 179, 0, 0.6),
+    0 0 50px rgba(255, 179, 0, 0.45);
+  background: radial-gradient(
+    circle at center,
+    rgba(8, 10, 14, 0.85) 0%,
+    rgba(8, 10, 14, 0.92) 55%,
+    rgba(8, 10, 14, 0.96) 100%
+  );
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
 .dial-row {
@@ -489,16 +501,14 @@ main {
 .car-svg {
   max-width: 280px;
   flex: 0 1 36%;
-  filter: drop-shadow(0 0 18px rgba(0, 255, 224, 0.55))
-    drop-shadow(0 8px 24px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
   animation: cruise 6s ease-in-out infinite;
 }
 
 .car-body {
-  fill: #08090c;
-  stroke: rgba(32, 240, 255, 0.9);
-  stroke-width: 2.8;
-  filter: drop-shadow(0 0 12px rgba(32, 240, 255, 0.7));
+  fill: #1b1e24;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1.6;
 }
 
 .car-sill,
@@ -506,35 +516,33 @@ main {
 .car-window,
 .car-spoiler {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.45);
-  stroke-width: 1.8;
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 1.4;
 }
 
 .car-window {
-  stroke: rgba(86, 216, 255, 0.75);
+  stroke: rgba(255, 255, 255, 0.2);
 }
 
 .car-headlight {
-  fill: rgba(32, 240, 255, 0.95);
-  filter: drop-shadow(0 0 14px rgba(32, 240, 255, 0.9));
+  fill: rgba(255, 255, 255, 0.85);
 }
 
 .car-taillight {
-  fill: rgba(255, 0, 120, 0.9);
-  filter: drop-shadow(0 0 10px rgba(255, 0, 120, 0.7));
+  fill: rgba(198, 38, 58, 0.85);
 }
 
 .wheel {
-  fill: #050607;
-  stroke: rgba(255, 255, 255, 0.4);
+  fill: #0d0f13;
+  stroke: rgba(255, 255, 255, 0.2);
   stroke-width: 2;
-  filter: drop-shadow(0 0 10px rgba(32, 240, 255, 0.3));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
 }
 
 .wheel-core {
-  fill: rgba(32, 240, 255, 0.9);
-  filter: drop-shadow(0 0 8px rgba(32, 240, 255, 0.7));
-  animation: spin-glow 2.4s linear infinite;
+  fill: rgba(180, 180, 180, 0.9);
+  filter: none;
+  animation: none;
 }
 
 .dancer-svg {
@@ -601,7 +609,8 @@ main {
 
 .accepted .neon-success {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  visibility: visible;
+  transform: scale(1);
 }
 
 .accepted .dial-label {

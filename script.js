@@ -25,6 +25,7 @@ const noPhrases = [
   "Try the yes button?",
 ];
 let phraseIndex = 0;
+let accepted = false;
 
 const dialFillMax = 240;
 const dialYesThreshold = 220; // 220 km/h out of 240 km/h max
@@ -148,6 +149,9 @@ const isNear = (button, x, y, distance) => {
 };
 
 const moveNoButton = () => {
+  if (accepted) {
+    return;
+  }
   const { x, y } = getSafePosition(noButton);
   setButtonPosition(noButton, x, y);
   phraseIndex = (phraseIndex + 1) % noPhrases.length;
@@ -164,26 +168,26 @@ const updateDial = () => {
 };
 
 const decayDial = (timestamp) => {
+  if (accepted) {
+    return;
+  }
   const delta = (timestamp - lastDecay) / 1000;
   lastDecay = timestamp;
   dialFill = Math.max(0, dialFill - decayRate * delta);
   updateDial();
-  if (dialFill < dialYesThreshold) {
-    document.body.classList.remove("accepted");
-  }
   requestAnimationFrame(decayDial);
 };
 
 updateDial();
 requestAnimationFrame(decayDial);
 
-window.addEventListener("mousemove", (event) => {
+const handleMouseMove = (event) => {
   if (isNear(noButton, event.clientX, event.clientY, alertDistance)) {
     moveNoButton();
   }
-});
+};
 
-window.addEventListener("touchstart", (event) => {
+const handleTouchStart = (event) => {
   if (!event.touches.length) {
     return;
   }
@@ -191,7 +195,10 @@ window.addEventListener("touchstart", (event) => {
   if (isNear(noButton, touch.clientX, touch.clientY, alertDistance)) {
     moveNoButton();
   }
-});
+};
+
+window.addEventListener("mousemove", handleMouseMove);
+window.addEventListener("touchstart", handleTouchStart);
 
 yesButton.addEventListener("click", () => {
   document.body.classList.remove("revving");
@@ -203,6 +210,13 @@ yesButton.addEventListener("click", () => {
   updateDial();
 
   if (dialFill >= dialYesThreshold) {
+    accepted = true;
+    dialFill = dialFillMax;
+    updateDial();
     document.body.classList.add("accepted");
+    noButton.disabled = true;
+    noButton.style.pointerEvents = "none";
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("touchstart", handleTouchStart);
   }
 });

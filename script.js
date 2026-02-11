@@ -28,7 +28,7 @@ let phraseIndex = 0;
 let accepted = false;
 
 const speedMax = 240;
-const clicksToFull = 10;
+const clicksToFull = 5;
 const speedIncrement = speedMax / clicksToFull;
 const speedYesThreshold = speedMax * 0.6;
 const speedAcceptThreshold = speedMax * 0.85;

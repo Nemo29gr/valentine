@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cyber-Goth</title>
+    <title>Neon Noir</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Allura&family=Orbitron:wght@400;600&family=Share+Tech+Mono&display=swap");
 
       :root {
         --black: #050505;
-        --panel: #0c0c0c;
-        --cyan: #00e5ff;
-        --red: #ff1744;
-        --white: #ffffff;
-        --gray: #202020;
+        --deep: #0b0b10;
         --neon-pink: #ff2eea;
+        --neon-cyan: #00e5ff;
+        --neon-red: #ff1744;
+        --frost: #e8e8e8;
+        --dim: #2b2b2b;
       }
 
       * {
@@ -29,324 +29,243 @@
       body {
         margin: 0;
         font-family: "Share Tech Mono", "Courier New", monospace;
-        color: var(--cyan);
-        background: var(--black);
+        color: var(--neon-cyan);
+        background: radial-gradient(circle at 15% 20%, #141420 0%, #050505 55%)
+          no-repeat;
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.02),
+            rgba(255, 255, 255, 0.02) 1px,
+            transparent 1px,
+            transparent 3px
+          ),
+          radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.05), transparent 45%);
+        opacity: 0.3;
+        pointer-events: none;
       }
 
       main {
         min-height: 100vh;
         display: grid;
-        gap: 80px;
-        padding: 80px 20px 120px;
+        place-items: center;
+        padding: 60px 20px;
       }
 
-      section {
-        margin: 0 auto;
-        width: min(920px, 92vw);
-        border-radius: 16px;
+      .neon-card {
+        width: min(860px, 92vw);
+        padding: 64px 48px 56px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, rgba(7, 7, 12, 0.96), #050507);
+        border: 1px solid #181820;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.9),
+          0 0 50px rgba(255, 46, 234, 0.08);
+        text-align: center;
+        position: relative;
         overflow: hidden;
-        position: relative;
       }
 
-      .cluster {
-        background: radial-gradient(
-            circle at 20% 20%,
-            rgba(255, 255, 255, 0.04),
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 30%,
-            rgba(255, 255, 255, 0.05),
-            transparent 55%
-          ),
-          repeating-linear-gradient(
-            45deg,
-            #111 0,
-            #111 6px,
-            #161616 6px,
-            #161616 12px
-          );
-        border: 1px solid #333;
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-      }
-
-      .cluster-inner {
-        padding: 48px 48px 56px;
-        display: grid;
-        gap: 28px;
-      }
-
-      .cluster-headline {
-        font-family: "Orbitron", "Share Tech Mono", monospace;
-        font-size: 22px;
-        letter-spacing: 1.8px;
-        text-transform: uppercase;
-        color: var(--white);
-      }
-
-      .cluster-readout {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 20px;
-        align-items: center;
-      }
-
-      .rpm-text {
-        font-size: clamp(22px, 2.6vw, 28px);
-        color: var(--red);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: opacity 0.2s ease;
-      }
-
-      .dial {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        border: 2px solid #3a3a3a;
-        position: relative;
-        box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.8);
-      }
-
-      .dial::before {
+      .neon-card::after {
         content: "";
         position: absolute;
-        inset: 18px;
-        border-radius: 50%;
-        border: 1px dashed rgba(255, 255, 255, 0.2);
+        inset: -40% -20% auto;
+        height: 60%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 46, 234, 0.15),
+          transparent 70%
+        );
+        opacity: 0.6;
+        pointer-events: none;
       }
 
-      .needle {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 2px;
-        height: 58px;
-        background: var(--red);
-        transform-origin: bottom;
-        transform: translate(-50%, -100%) rotate(-45deg);
-        box-shadow: 0 0 8px rgba(255, 23, 68, 0.6);
+      .neon-name {
+        font-family: "Allura", cursive;
+        font-size: clamp(48px, 7vw, 72px);
+        color: var(--neon-pink);
+        text-shadow: 0 0 14px rgba(255, 46, 234, 0.6);
+        margin: 0 0 8px 0;
+        animation: neon-flicker 3.4s infinite;
       }
 
-      .cluster-actions {
+      .neon-question {
+        font-family: "Orbitron", "Share Tech Mono", sans-serif;
+        font-size: clamp(20px, 3vw, 28px);
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin: 0 0 32px 0;
+        color: var(--frost);
+        transition: color 0.3s ease, text-shadow 0.3s ease;
+      }
+
+      .neon-actions {
         display: flex;
-        gap: 16px;
+        gap: 18px;
+        justify-content: center;
         flex-wrap: wrap;
+        margin-bottom: 24px;
       }
 
       .btn {
         background: transparent;
         color: inherit;
         border: 1px solid currentColor;
-        padding: 12px 20px;
+        padding: 12px 22px;
         font-size: 14px;
-        letter-spacing: 1px;
+        letter-spacing: 2px;
         text-transform: uppercase;
         cursor: pointer;
         transition: box-shadow 0.2s ease, transform 0.2s ease;
+        min-width: 160px;
       }
 
       .btn:focus-visible {
-        outline: 2px solid var(--white);
+        outline: 2px solid var(--frost);
         outline-offset: 2px;
       }
 
       .btn--yes {
-        color: var(--cyan);
-        box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
-      }
-
-      .btn--no {
-        color: var(--red);
-        box-shadow: 0 0 10px rgba(255, 23, 68, 0.35);
-        animation: idle-vibrate 0.18s infinite;
-      }
-
-      @keyframes idle-vibrate {
-        0% {
-          transform: translate(0, 0);
-        }
-        50% {
-          transform: translate(1px, -1px);
-        }
-        100% {
-          transform: translate(-1px, 1px);
-        }
-      }
-
-      .flash {
-        position: absolute;
-        inset: 0;
-        background: var(--white);
-        opacity: 0;
-        pointer-events: none;
-        z-index: 2;
-      }
-
-      .cluster.throttle .flash {
-        animation: flash 0.35s ease;
-      }
-
-      .cluster.throttle .rpm-text {
-        animation: rev 0.35s ease;
-      }
-
-      @keyframes flash {
-        0% {
-          opacity: 0;
-        }
-        30% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0;
-        }
-      }
-
-      @keyframes rev {
-        0% {
-          opacity: 0.4;
-        }
-        40% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0.6;
-        }
-      }
-
-      .neon {
-        background: linear-gradient(180deg, #070707 0%, #0a0a0f 100%);
-        border: 1px solid #151515;
-        box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.8);
-      }
-
-      .neon-inner {
-        padding: 56px 40px 64px;
-        text-align: center;
-      }
-
-      .neon-headline {
-        font-family: "Allura", cursive;
-        font-size: clamp(42px, 6vw, 64px);
-        color: var(--neon-pink);
-        text-shadow: 0 0 12px rgba(255, 46, 234, 0.55);
-        animation: neon-flicker 3.2s infinite;
-        margin: 0 0 8px 0;
-      }
-
-      .neon-subhead {
-        font-family: "Orbitron", "Share Tech Mono", sans-serif;
-        font-size: 20px;
-        letter-spacing: 2px;
-        color: #c5c5c5;
-        margin: 0 0 32px 0;
-      }
-
-      @keyframes neon-flicker {
-        0%,
-        22%,
-        100% {
-          opacity: 1;
-        }
-        23%,
-        27%,
-        35%,
-        52%,
-        56% {
-          opacity: 0.4;
-        }
-        28%,
-        53% {
-          opacity: 0.7;
-        }
-      }
-
-      .neon-actions {
-        display: flex;
-        gap: 16px;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .btn--neon-yes {
         color: var(--neon-pink);
         box-shadow: 0 0 12px rgba(255, 46, 234, 0.5);
       }
 
-      .btn--neon-no {
-        color: #2a2a2a;
-        border-color: #2a2a2a;
+      .btn--no {
+        color: var(--dim);
+        border-color: var(--dim);
         box-shadow: none;
       }
 
-      .headline {
-        font-size: 18px;
-        letter-spacing: 0.5px;
-        margin: 0 0 20px 0;
+      .neon-message {
+        font-size: clamp(18px, 2.4vw, 24px);
+        color: var(--neon-cyan);
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
       }
 
-      .actions {
-        display: flex;
-        gap: 16px;
-        justify-content: center;
+      .revving .neon-card {
+        box-shadow: 0 0 45px rgba(255, 23, 68, 0.6),
+          0 0 80px rgba(255, 23, 68, 0.35);
       }
 
-      .hint {
-        font-size: 14px;
-        color: #9a9a9a;
+      .revving .neon-question {
+        color: var(--neon-red);
+        text-shadow: 0 0 12px rgba(255, 23, 68, 0.6);
+      }
+
+      .accepted .neon-question {
+        color: var(--neon-red);
+        text-shadow: 0 0 12px rgba(255, 23, 68, 0.6);
+      }
+
+      .accepted .neon-message {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes neon-flicker {
+        0%,
+        18%,
+        100% {
+          opacity: 1;
+        }
+        19%,
+        24%,
+        42%,
+        52%,
+        60% {
+          opacity: 0.45;
+        }
+        25%,
+        53% {
+          opacity: 0.75;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .btn {
+          min-width: 140px;
+        }
+        .neon-card {
+          padding: 50px 28px 44px;
+        }
       }
     </style>
   </head>
   <body>
     <main>
-      <section class="cluster" aria-label="Motorcycle cluster">
-        <div class="cluster-inner">
-          <div class="cluster-headline">Ignition Check: Feb 14.</div>
-          <div class="cluster-readout">
-            <div class="rpm-text">RPM Check: Are you free?</div>
-            <div class="dial" aria-hidden="true">
-              <div class="needle"></div>
-            </div>
-          </div>
-          <div class="cluster-actions">
-            <button class="btn btn--yes" type="button">Full Throttle</button>
-            <button class="btn btn--no" type="button">Hit the Brakes</button>
-          </div>
-          <div class="hint">Tap full throttle to rev the display.</div>
+      <section class="neon-card" aria-label="Neon noir invite">
+        <h1 class="neon-name">Angie</h1>
+        <p class="neon-question">Angie, are you free on February 14th?</p>
+        <div class="neon-actions">
+          <button class="btn btn--yes" type="button">Yes</button>
+          <button class="btn btn--no" type="button">No</button>
         </div>
-        <div class="flash" aria-hidden="true"></div>
-      </section>
-
-      <section class="neon" aria-label="Neon noir">
-        <div class="neon-inner">
-          <h1 class="neon-headline">Angie</h1>
-          <p class="neon-subhead">Feb 14?</p>
-          <div class="neon-actions">
-            <button class="btn btn--neon-yes" type="button">Yes</button>
-            <button class="btn btn--neon-no" type="button">No</button>
-          </div>
-        </div>
+        <p class="neon-message" aria-live="polite">
+          Let us grab food together and be my valentine, twin.
+        </p>
       </section>
     </main>
     <script>
-      const throttleButton = document.querySelector(".btn--yes");
-      const brakesButton = document.querySelector(".btn--no");
-      const rpmText = document.querySelector(".rpm-text");
-      const cluster = document.querySelector(".cluster");
+      const yesButton = document.querySelector(".btn--yes");
+      const noButton = document.querySelector(".btn--no");
+      const neonCard = document.querySelector(".neon-card");
 
-      const neonNoButton = document.querySelector(".btn--neon-no");
-
-      const padding = 20;
-      const alertDistance = 60;
+      const padding = 18;
+      const alertDistance = 70;
 
       const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+      const playEngineSound = () => {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+          return;
+        }
+
+        const audioContext = new AudioContextClass();
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const filter = audioContext.createBiquadFilter();
+
+        oscillator.type = "sawtooth";
+        oscillator.frequency.setValueAtTime(90, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(
+          260,
+          audioContext.currentTime + 0.5
+        );
+
+        filter.type = "lowpass";
+        filter.frequency.value = 420;
+
+        gain.gain.setValueAtTime(0.001, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(
+          0.12,
+          audioContext.currentTime + 0.08
+        );
+        gain.gain.exponentialRampToValueAtTime(
+          0.0001,
+          audioContext.currentTime + 1.1
+        );
+
+        oscillator.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioContext.destination);
+
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 1.2);
+      };
 
       const setButtonPosition = (button, x, y, rotation = 0) => {
         button.style.position = "fixed";
         button.style.left = `${x}px`;
         button.style.top = `${y}px`;
-        button.style.transform = `translate(0, 0) rotate(${rotation}deg)`;
+        button.style.transform = `rotate(${rotation}deg)`;
       };
 
       const getSafePosition = (button) => {
@@ -369,23 +288,14 @@
         return Math.hypot(centerX - x, centerY - y) <= distance;
       };
 
-      const moveBrakesButton = () => {
-        const { x, y } = getSafePosition(brakesButton);
-        setButtonPosition(brakesButton, x, y);
-      };
-
-      const moveNeonNoButton = () => {
-        const { x, y } = getSafePosition(neonNoButton);
-        const rotation = 90;
-        setButtonPosition(neonNoButton, x, y, rotation);
+      const moveNoButton = () => {
+        const { x, y } = getSafePosition(noButton);
+        setButtonPosition(noButton, x, y, 90);
       };
 
       window.addEventListener("mousemove", (event) => {
-        if (isNear(brakesButton, event.clientX, event.clientY, alertDistance)) {
-          moveBrakesButton();
-        }
-        if (isNear(neonNoButton, event.clientX, event.clientY, alertDistance)) {
-          moveNeonNoButton();
+        if (isNear(noButton, event.clientX, event.clientY, alertDistance)) {
+          moveNoButton();
         }
       });
 
@@ -394,18 +304,21 @@
           return;
         }
         const touch = event.touches[0];
-        if (isNear(brakesButton, touch.clientX, touch.clientY, alertDistance)) {
-          moveBrakesButton();
-        }
-        if (isNear(neonNoButton, touch.clientX, touch.clientY, alertDistance)) {
-          moveNeonNoButton();
+        if (isNear(noButton, touch.clientX, touch.clientY, alertDistance)) {
+          moveNoButton();
         }
       });
 
-      throttleButton.addEventListener("click", () => {
-        cluster.classList.remove("throttle");
-        void rpmText.offsetWidth;
-        cluster.classList.add("throttle");
+      yesButton.addEventListener("click", () => {
+        document.body.classList.remove("revving");
+        document.body.classList.remove("accepted");
+        void neonCard.offsetWidth;
+        document.body.classList.add("revving");
+        playEngineSound();
+
+        setTimeout(() => {
+          document.body.classList.add("accepted");
+        }, 420);
       });
     </script>
   </body>

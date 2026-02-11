@@ -1,161 +1,87 @@
-const yesButton = document.querySelector(".btn--yes");
-const noButton = document.querySelector(".btn--no");
-const neonCard = document.querySelector(".neon-card");
-const neonQuestion = document.querySelector(".neon-question");
-const dial = document.querySelector(".cluster-dial");
-const dialLabel = document.querySelector(".dial-label");
-
-const padding = 18;
-const alertDistance = 70;
-
-const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-const noPhrases = [
-  "Are you sure?",
-  "Still no?",
-  "One more time?",
-  "Dinner on me?",
-  "Change your mind?",
-  "Last chance?",
-  "Please?",
-  "Come on?",
-  "Really sure?",
-  "Think again?",
-  "Maybe yes?",
-  "Try the yes button?",
-];
-let phraseIndex = 0;
-let accepted = false;
-
-const speedMax = 240;
-const speedIncrement = 10;
-const speedYesThreshold = 120;
-const speedAcceptThreshold = 180;
-const dialStartAngle = 210;
-const dialSweepTotal = 240;
-let speed = 0;
-let lastDecay = performance.now();
-const decayRate = 20;
-
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-let engineBuffer = null;
-
-fetch("car-revving.mp3")
-  .then((response) => response.arrayBuffer())
-  .then((buffer) => audioContext.decodeAudioData(buffer))
-  .then((decodedData) => {
-    engineBuffer = decodedData;
-  });
-
-const playEngineSound = () => {
-  if (!engineBuffer) return;
-  if (audioContext.state === "suspended") audioContext.resume();
-  const source = audioContext.createBufferSource();
-  source.buffer = engineBuffer;
-  const gainNode = audioContext.createGain();
-  gainNode.gain.value = 3;
-  source.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  source.start(0, 1);
-};
-
-const setButtonPosition = (button, x, y) => {
-  button.style.position = "fixed";
-  button.style.left = `${x}px`;
-  button.style.top = `${y}px`;
-  button.style.transform = "rotate(0deg)";
-};
-
-const getSafePosition = (button) => {
-  const rect = button.getBoundingClientRect();
-  const minX = padding;
-  const minY = padding;
-  const maxX = window.innerWidth - padding - rect.width;
-  const maxY = window.innerHeight - padding - rect.height;
-
-  return {
-    x: clamp(Math.random() * (maxX - minX) + minX, minX, maxX),
-    y: clamp(Math.random() * (maxY - minY) + minY, minY, maxY),
-  };
-};
-
-const isNear = (button, x, y, distance) => {
-  const rect = button.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-  return Math.hypot(centerX - x, centerY - y) <= distance;
-};
-
-const moveNoButton = () => {
-  if (accepted) {
-    return;
-  }
-  const { x, y } = getSafePosition(noButton);
-  setButtonPosition(noButton, x, y);
-  phraseIndex = (phraseIndex + 1) % noPhrases.length;
-  neonQuestion.textContent = noPhrases[phraseIndex];
-};
-
-const updateDial = () => {
-  const fillDeg = (speed / speedMax) * dialSweepTotal;
-  dial.style.setProperty("--dial-fill", `${fillDeg}deg`);
-  dial.style.setProperty(
-    "--dial-needle",
-    `${dialStartAngle + fillDeg}deg`
-  );
-  dialLabel.textContent = speed >= speedYesThreshold ? "YES" : "SPEED";
-};
-
-const decayDial = (timestamp) => {
-  if (accepted) {
-    return;
-  }
-  const delta = (timestamp - lastDecay) / 1000;
-  lastDecay = timestamp;
-  speed = Math.max(0, speed - decayRate * delta);
-  updateDial();
-  requestAnimationFrame(decayDial);
-};
-
-updateDial();
-requestAnimationFrame(decayDial);
-
-const handleMouseMove = (event) => {
-  if (isNear(noButton, event.clientX, event.clientY, alertDistance)) {
-    moveNoButton();
-  }
-};
-
-const handleTouchStart = (event) => {
-  if (!event.touches.length) {
-    return;
-  }
-  const touch = event.touches[0];
-  if (isNear(noButton, touch.clientX, touch.clientY, alertDistance)) {
-    moveNoButton();
-  }
-};
-
-window.addEventListener("mousemove", handleMouseMove);
-window.addEventListener("touchstart", handleTouchStart);
-
-yesButton.addEventListener("click", () => {
-  document.body.classList.remove("revving");
-  void neonCard.offsetWidth;
-  document.body.classList.add("revving");
-  playEngineSound();
-
-  speed = Math.min(speedMax, speed + speedIncrement);
-  updateDial();
-
-  if (speed >= speedAcceptThreshold) {
-    accepted = true;
-    speed = speedMax;
-    updateDial();
-    document.body.classList.add("accepted");
-    noButton.disabled = true;
-    noButton.style.pointerEvents = "none";
-    window.removeEventListener("mousemove", handleMouseMove);
-    window.removeEventListener("touchstart", handleTouchStart);
-  }
-});
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Neon Noir</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <section class="neon-card" aria-label="Neon noir invite">
+        <h1 class="neon-name">Angie</h1>
+        <div class="dash-top">
+          <span class="dash-tag">Street Spec</span>
+          <div class="dash-lights" aria-hidden="true">
+            <span class="light light--amber">ABS</span>
+            <span class="light light--red">OIL</span>
+            <span class="light light--green">OK</span>
+          </div>
+          <span class="dash-vin">CHS-0214</span>
+        </div>
+        <p class="neon-question">Dinner on me?</p>
+        <div class="dial-row" aria-hidden="true">
+          <svg class="dancer-svg" viewBox="0 0 140 240">
+            <line class="pole" x1="100" y1="10" x2="100" y2="230" />
+            <path
+              class="dancer"
+              d="M70 52
+                 Q56 60 56 76
+                 Q58 92 70 100
+                 Q84 110 86 124
+                 Q88 142 74 158
+                 Q60 174 48 186"
+            />
+            <path class="arm" d="M68 78 Q82 88 98 86" />
+            <path class="leg" d="M74 158 Q96 176 114 188" />
+            <circle class="head" cx="70" cy="40" r="12" />
+            <path class="floor" d="M18 218 H122" />
+          </svg>
+          <div class="cluster-dial" aria-hidden="true">
+            <div class="cluster-sweep"></div>
+            <div class="dial-glass"></div>
+            <div class="dial-markers" aria-hidden="true">
+              <span class="marker-0">0</span>
+              <span class="marker-1">40</span>
+              <span class="marker-2">240</span>
+              <span class="marker-3">200</span>
+              <span class="marker-4">160</span>
+              <span class="marker-5">200</span>
+              <span class="marker-6">240</span>
+            </div>
+            <div class="dial-center" aria-hidden="true">
+              <span class="gear">N</span>
+              <span class="rpm">RPM</span>
+            </div>
+            <div class="dial-label">Speed</div>
+            <div class="dial-needle"></div>
+          </div>
+          <svg class="car-svg" viewBox="0 0 260 120">
+            <path
+              class="car-body"
+              d="M24 70 L52 44 Q62 36 84 36 H162 Q184 36 198 50 L220 70 Z"
+            />
+            <path class="car-sill" d="M28 72 H220" />
+            <path class="car-window" d="M72 48 H148 Q160 48 170 58 L176 68 H64 Z" />
+            <path class="car-spoiler" d="M202 52 L224 52 L230 60 L206 60 Z" />
+            <path class="car-hood" d="M52 62 Q90 48 132 48" />
+            <circle class="wheel" cx="78" cy="84" r="16" />
+            <circle class="wheel" cx="186" cy="84" r="16" />
+            <circle class="wheel-core" cx="78" cy="84" r="6" />
+            <circle class="wheel-core" cx="186" cy="84" r="6" />
+            <path class="car-headlight" d="M24 70 L44 70 L40 76 L22 76 Z" />
+            <path class="car-taillight" d="M210 70 L224 70 L224 76 L206 76 Z" />
+          </svg>
+        </div>
+        <div class="neon-actions">
+          <button class="btn btn--yes" type="button">Yes</button>
+          <button class="btn btn--no" type="button">No</button>
+        </div>
+        <p class="neon-success" aria-live="polite">
+          Yeahhh steile insta
+        </p>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

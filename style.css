@@ -222,6 +222,7 @@ main {
   width: min(240px, 46vw);
   height: min(240px, 46vw);
   margin: 0;
+  --dial-radius: 94px;
   border-radius: 50%;
   background: conic-gradient(
       from -180deg,
@@ -365,50 +366,46 @@ main {
   color: rgba(255, 255, 255, 0.7);
   font-size: 11px;
   letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
   text-transform: uppercase;
   z-index: 2;
 }
 
 .dial-markers span {
   position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(var(--angle))
+    translateY(calc(-1 * var(--dial-radius)))
+    rotate(calc(-1 * var(--angle)));
 }
 
 .marker-0 {
-  left: 4px;
-  top: 58%;
+  --angle: -180deg;
 }
 
 .marker-1 {
-  left: 20px;
-  top: 40%;
+  --angle: -140deg;
 }
 
 .marker-2 {
-  left: 50%;
-  top: 8px;
-  transform: translateX(-50%);
+  --angle: -100deg;
 }
 
 .marker-3 {
-  right: 20px;
-  top: 40%;
+  --angle: -60deg;
 }
 
 .marker-4 {
-  right: 4px;
-  top: 58%;
+  --angle: -20deg;
 }
 
 .marker-5 {
-  right: 22px;
-  bottom: 18px;
-  transform: translateX(20%);
+  --angle: 20deg;
 }
 
 .marker-6 {
-  left: 50%;
-  bottom: 6px;
-  transform: translateX(-50%);
+  --angle: 60deg;
 }
 
 .btn {
@@ -460,6 +457,20 @@ main {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
+.neon-success {
+  font-family: "Orbitron", "Share Tech Mono", sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin: 10px 0 0;
+  color: var(--white);
+  opacity: 0;
+  transform: translateY(18px) scale(0.96);
+  text-shadow: 0 0 18px rgba(255, 179, 0, 0.5),
+    0 0 40px rgba(255, 179, 0, 0.35);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
 .dial-row {
   display: flex;
   justify-content: space-between;
@@ -477,7 +488,7 @@ main {
 
 .car-svg {
   max-width: 280px;
-  flex: 0 1 34%;
+  flex: 0 1 36%;
   filter: drop-shadow(0 0 18px rgba(0, 255, 224, 0.55))
     drop-shadow(0 8px 24px rgba(0, 0, 0, 0.6));
   animation: cruise 6s ease-in-out infinite;
@@ -528,7 +539,7 @@ main {
 
 .dancer-svg {
   max-width: 200px;
-  flex: 0 1 26%;
+  flex: 0 1 28%;
   filter: drop-shadow(0 0 18px rgba(255, 0, 135, 0.45));
   animation: sway 5.2s ease-in-out infinite;
 }
@@ -586,6 +597,11 @@ main {
 .accepted .neon-message {
   opacity: 1;
   transform: translateY(0);
+}
+
+.accepted .neon-success {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .accepted .dial-label {
@@ -668,6 +684,7 @@ main {
   .cluster-dial {
     width: min(220px, 72vw);
     height: min(220px, 72vw);
+    --dial-radius: 84px;
   }
 
   .dash-top {

@@ -21,21 +21,21 @@
         </div>
         <p class="neon-question">Dinner on me?</p>
         <div class="dial-row" aria-hidden="true">
-          <svg class="car-svg" viewBox="0 0 260 120">
+          <svg class="dancer-svg" viewBox="0 0 140 240">
+            <line class="pole" x1="100" y1="10" x2="100" y2="230" />
             <path
-              class="car-body"
-              d="M24 70 L52 44 Q62 36 84 36 H162 Q184 36 198 50 L220 70 Z"
+              class="dancer"
+              d="M70 52
+                 Q56 60 56 76
+                 Q58 92 70 100
+                 Q84 110 86 124
+                 Q88 142 74 158
+                 Q60 174 48 186"
             />
-            <path class="car-sill" d="M28 72 H220" />
-            <path class="car-window" d="M72 48 H148 Q160 48 170 58 L176 68 H64 Z" />
-            <path class="car-spoiler" d="M202 52 L224 52 L230 60 L206 60 Z" />
-            <path class="car-hood" d="M52 62 Q90 48 132 48" />
-            <circle class="wheel" cx="78" cy="84" r="16" />
-            <circle class="wheel" cx="186" cy="84" r="16" />
-            <circle class="wheel-core" cx="78" cy="84" r="6" />
-            <circle class="wheel-core" cx="186" cy="84" r="6" />
-            <path class="car-headlight" d="M24 70 L44 70 L40 76 L22 76 Z" />
-            <path class="car-taillight" d="M210 70 L224 70 L224 76 L206 76 Z" />
+            <path class="arm" d="M68 78 Q82 88 98 86" />
+            <path class="leg" d="M74 158 Q96 176 114 188" />
+            <circle class="head" cx="70" cy="40" r="12" />
+            <path class="floor" d="M18 218 H122" />
           </svg>
           <div class="cluster-dial" aria-hidden="true">
             <div class="cluster-sweep"></div>
@@ -56,30 +56,32 @@
             <div class="dial-label">Speed</div>
             <div class="dial-needle"></div>
           </div>
-          <svg class="dancer-svg" viewBox="0 0 140 240">
-            <line class="pole" x1="100" y1="10" x2="100" y2="230" />
+          <svg class="car-svg" viewBox="0 0 260 120">
             <path
-              class="dancer"
-              d="M70 52
-                 Q56 60 56 76
-                 Q58 92 70 100
-                 Q84 110 86 124
-                 Q88 142 74 158
-                 Q60 174 48 186"
+              class="car-body"
+              d="M24 70 L52 44 Q62 36 84 36 H162 Q184 36 198 50 L220 70 Z"
             />
-            <path class="arm" d="M68 78 Q82 88 98 86" />
-            <path class="leg" d="M74 158 Q96 176 114 188" />
-            <circle class="head" cx="70" cy="40" r="12" />
-            <path class="floor" d="M18 218 H122" />
+            <path class="car-sill" d="M28 72 H220" />
+            <path class="car-window" d="M72 48 H148 Q160 48 170 58 L176 68 H64 Z" />
+            <path class="car-spoiler" d="M202 52 L224 52 L230 60 L206 60 Z" />
+            <path class="car-hood" d="M52 62 Q90 48 132 48" />
+            <circle class="wheel" cx="78" cy="84" r="16" />
+            <circle class="wheel" cx="186" cy="84" r="16" />
+            <circle class="wheel-core" cx="78" cy="84" r="6" />
+            <circle class="wheel-core" cx="186" cy="84" r="6" />
+            <path class="car-headlight" d="M24 70 L44 70 L40 76 L22 76 Z" />
+            <path class="car-taillight" d="M210 70 L224 70 L224 76 L206 76 Z" />
           </svg>
         </div>
         <div class="neon-actions">
           <button class="btn btn--yes" type="button">Yes</button>
           <button class="btn btn--no" type="button">No</button>
         </div>
+        <p class="neon-success" aria-live="polite">
+          Yes. Cute. Dinner on me.
+        </p>
       </section>
     </main>
     <script src="script.js"></script>
   </body>
 </html>
-

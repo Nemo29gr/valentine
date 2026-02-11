@@ -11,20 +11,18 @@ const alertDistance = 70;
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 const noPhrases = [
-  "No?",
   "Are you sure?",
-  "Come on, Angie.",
-  "Last chance.",
-  "Need a co-pilot?",
-  "Cruise with me?",
-  "Think about it...",
-  "Say yes?",
-  "Green light?",
-  "Okay, okay...",
-  "Just one yes?",
-  "Give it a shot.",
-  "My heart's in the redline.",
-  "Match my pace?",
+  "Still no?",
+  "One more time?",
+  "Dinner on me?",
+  "Change your mind?",
+  "Last chance?",
+  "Please?",
+  "Come on?",
+  "Really sure?",
+  "Think again?",
+  "Maybe yes?",
+  "Try the yes button?",
 ];
 let phraseIndex = 0;
 

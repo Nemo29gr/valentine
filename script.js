@@ -27,10 +27,13 @@ const noPhrases = [
 let phraseIndex = 0;
 let accepted = false;
 
-const dialFillMax = 240;
-const dialYesThreshold = 10;
+const speedMax = 240;
+const speedIncrement = 5;
+const speedYesThreshold = 140;
+const speedAcceptThreshold = 200;
 const dialStartAngle = 210;
-let dialFill = 0;
+const dialSweepTotal = 240;
+let speed = 0;
 let lastDecay = performance.now();
 const decayRate = 20;
 
@@ -94,12 +97,13 @@ const moveNoButton = () => {
 };
 
 const updateDial = () => {
-  dial.style.setProperty("--dial-fill", `${dialFill}deg`);
+  const fillDeg = (speed / speedMax) * dialSweepTotal;
+  dial.style.setProperty("--dial-fill", `${fillDeg}deg`);
   dial.style.setProperty(
     "--dial-needle",
-    `${dialStartAngle + dialFill}deg`
+    `${dialStartAngle + fillDeg}deg`
   );
-  dialLabel.textContent = dialFill >= dialYesThreshold ? "YES" : "SPEED";
+  dialLabel.textContent = speed >= speedYesThreshold ? "YES" : "SPEED";
 };
 
 const decayDial = (timestamp) => {
@@ -108,7 +112,7 @@ const decayDial = (timestamp) => {
   }
   const delta = (timestamp - lastDecay) / 1000;
   lastDecay = timestamp;
-  dialFill = Math.max(0, dialFill - decayRate * delta);
+  speed = Math.max(0, speed - decayRate * delta);
   updateDial();
   requestAnimationFrame(decayDial);
 };
@@ -141,12 +145,11 @@ yesButton.addEventListener("click", () => {
   document.body.classList.add("revving");
   playEngineSound();
 
-  dialFill = Math.min(dialFillMax, dialFill + 35);
+  speed = Math.min(speedMax, speed + speedIncrement);
   updateDial();
 
-  if (dialFill >= dialYesThreshold) {
+  if (speed >= speedAcceptThreshold) {
     accepted = true;
-    dialFill = dialFillMax;
     updateDial();
     document.body.classList.add("accepted");
     noButton.disabled = true;

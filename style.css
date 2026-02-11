@@ -311,9 +311,10 @@ main {
   border-radius: 50%;
   background: conic-gradient(
     from 210deg,
-    rgba(255, 179, 0, 0.5) 0deg,
-    rgba(255, 179, 0, 0.5) var(--dial-fill),
-    rgba(255, 179, 0, 0.08) var(--dial-fill)
+    rgba(255, 179, 0, 0.65) 0deg,
+    rgba(255, 179, 0, 0.65) var(--dial-fill),
+    rgba(255, 179, 0, 0) var(--dial-fill),
+    rgba(255, 179, 0, 0) 240deg
   );
   mix-blend-mode: screen;
   mask: radial-gradient(circle, transparent 58%, #000 59%);

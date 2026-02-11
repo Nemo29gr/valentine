@@ -28,9 +28,10 @@ let phraseIndex = 0;
 let accepted = false;
 
 const speedMax = 240;
-const speedIncrement = 5;
-const speedYesThreshold = 140;
-const speedAcceptThreshold = 200;
+const clicksToFull = 30;
+const speedIncrement = speedMax / clicksToFull;
+const speedYesThreshold = speedMax * 0.6;
+const speedAcceptThreshold = speedMax * 0.85;
 const dialStartAngle = 210;
 const dialSweepTotal = 240;
 let speed = 0;
@@ -97,7 +98,8 @@ const moveNoButton = () => {
 };
 
 const updateDial = () => {
-  const fillDeg = (speed / speedMax) * dialSweepTotal;
+  const progress = clamp(speed / speedMax, 0, 1);
+  const fillDeg = progress * dialSweepTotal;
   dial.style.setProperty("--dial-fill", `${fillDeg}deg`);
   dial.style.setProperty(
     "--dial-needle",
